@@ -66,7 +66,8 @@ namespace Lab25MVC.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(string id)
         {
-            return View();
+            NorthwindEntities db = new NorthwindEntities();
+            return View(db.Customers.Find(id));
         }
 
         // POST: Customers/Edit/5
@@ -77,8 +78,22 @@ namespace Lab25MVC.Controllers
             {
                 // TODO: Add update logic here
                 NorthwindEntities db = new NorthwindEntities();
-                return View(db.Customers.Find(id));
+                Customer EditCustomer = db.Customers.Find(id);
+                EditCustomer.CompanyName = collection["CompanyName"];
+                EditCustomer.ContactName = collection["ContactName"];
+                EditCustomer.ContactTitle = collection["ContactTitle"];
+                EditCustomer.Address = collection["Address"];
+                EditCustomer.City = collection["City"];
+                EditCustomer.Region = collection["Region"];
+                EditCustomer.PostalCode = collection["PostalCode"];
+                EditCustomer.Country = collection["Country"];
+                EditCustomer.Phone = collection["Phone"];
+                EditCustomer.Fax = collection["Fax"];
+                EditCustomer.CustomerID = collection["CustomerID"];
                 db.SaveChanges();
+
+                return RedirectToAction("Index");
+                
                 
             }
             catch
